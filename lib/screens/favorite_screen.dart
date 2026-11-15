@@ -19,8 +19,9 @@ class FavoriteScreen extends StatelessWidget {
     final favoritesProvider = context.watch<FavoritesProvider>();
     final favorites = favoritesProvider.favorites;
 
+    Widget body;
     if (favoritesProvider.isLoading) {
-      return const Center(
+      body = const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -36,80 +37,80 @@ class FavoriteScreen extends StatelessWidget {
           ],
         ),
       );
-    }
-
-    if (favorites.isEmpty) {
-      return _buildEmptyState(context);
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Header info count
-        Padding(
-          padding: const EdgeInsets.fromLTRB(18, 16, 18, 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Tersimpan (${favorites.length})',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+    } else if (favorites.isEmpty) {
+      body = _buildEmptyState(context);
+    } else {
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header info count
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 16, 18, 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Tersimpan (${favorites.length})',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              const Row(
-                children: [
-                  Icon(
-                    Icons.swipe_left_rounded,
-                    size: 16,
-                    color: AppTheme.textMuted,
-                  ),
-                  SizedBox(width: 4),
-                  Text(
-                    'Geser untuk menghapus',
-                    style: TextStyle(fontSize: 12, color: AppTheme.textMuted),
-                  ),
-                ],
-              ),
-            ],
+                const Row(
+                  children: [
+                    Icon(
+                      Icons.swipe_left_rounded,
+                      size: 16,
+                      color: AppTheme.textMuted,
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      'Geser untuk menghapus',
+                      style: TextStyle(fontSize: 12, color: AppTheme.textMuted),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
 
-        // List with Dismissible swipe to delete
-        Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.only(top: 4, bottom: 20),
-            itemCount: favorites.length,
-            itemBuilder: (context, index) {
-              final character = favorites[index];
-              return Dismissible(
-                key: Key('favorite_character_${character.id}'),
-                direction: DismissDirection.endToStart,
-                background: _buildDismissBackground(),
-                onDismissed: (direction) =>
-                    _handleDismiss(context, character, favoritesProvider),
-                child: CharacterCard(
-                  character: character,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => DetailScreen(
-                          characterId: character.id,
-                          initialCharacter: character,
+          // List with Dismissible swipe to delete
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: 4, bottom: 20),
+              itemCount: favorites.length,
+              itemBuilder: (context, index) {
+                final character = favorites[index];
+                return Dismissible(
+                  key: Key('favorite_character_${character.id}'),
+                  direction: DismissDirection.endToStart,
+                  background: _buildDismissBackground(),
+                  onDismissed: (direction) =>
+                      _handleDismiss(context, character, favoritesProvider),
+                  child: CharacterCard(
+                    character: character,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailScreen(
+                            characterId: character.id,
+                            initialCharacter: character,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    }
+
+    return Scaffold(body: body);
   }
 
   Widget _buildDismissBackground() {

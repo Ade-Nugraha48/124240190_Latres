@@ -40,3 +40,4 @@ class EpisodeProvider with ChangeNotifier {
     fetchEpisodes();
   }
 }
+

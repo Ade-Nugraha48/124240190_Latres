@@ -72,12 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   decoration: InputDecoration(
                     hintText: 'Cari karakter (cth: Rick, Morty)...',
                     prefixIcon: const Icon(Icons.search_rounded, color: AppTheme.portalGreen),
-                    suffixIcon: _searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear_rounded, color: AppTheme.textMuted),
-                            onPressed: _clearSearch,
-                          )
-                        : null,
+                    suffixIcon: ValueListenableBuilder<TextEditingValue>(
+                      valueListenable: _searchController,
+                      builder: (context, value, _) {
+                        return value.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear_rounded, color: AppTheme.textMuted),
+                                onPressed: _clearSearch,
+                              )
+                            : const SizedBox.shrink();
+                      },
+                    ),
                     isDense: true,
                   ),
                 ),
