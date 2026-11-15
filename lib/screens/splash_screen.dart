@@ -51,22 +51,32 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppTheme.cardBackground,
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.portalGreen.withValues(alpha: 0.3),
-                    blurRadius: 32,
+                    color: AppTheme.portalGreen.withValues(alpha: 0.35),
+                    blurRadius: 36,
                     spreadRadius: 8,
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.science_rounded,
-                size: 72,
-                color: AppTheme.portalGreen,
+              child: Image.asset(
+                'assets/images/logo.png',
+                height: 160,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppTheme.cardBackground,
+                  ),
+                  child: const Icon(
+                    Icons.science_rounded,
+                    size: 72,
+                    color: AppTheme.portalGreen,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 24),

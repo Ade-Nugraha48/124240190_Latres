@@ -85,25 +85,35 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Logo / Icon
+                  // Logo
                   Center(
                     child: Container(
-                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppTheme.cardBackground,
                         boxShadow: [
                           BoxShadow(
-                            color: AppTheme.portalGreen.withValues(alpha: 0.25),
-                            blurRadius: 24,
-                            spreadRadius: 4,
+                            color: AppTheme.portalGreen.withValues(alpha: 0.3),
+                            blurRadius: 32,
+                            spreadRadius: 6,
                           ),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.rocket_launch_rounded,
-                        size: 64,
-                        color: AppTheme.portalGreen,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        height: 150,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppTheme.cardBackground,
+                          ),
+                          child: const Icon(
+                            Icons.rocket_launch_rounded,
+                            size: 64,
+                            color: AppTheme.portalGreen,
+                          ),
+                        ),
                       ),
                     ),
                   ),

@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: _searchController,
                   onChanged: _onSearchChanged,
                   decoration: InputDecoration(
-                    hintText: 'Cari karakter (cth: Rick, Morty)...',
+                    hintText: 'Cari karakter',
                     prefixIcon: const Icon(Icons.search_rounded, color: AppTheme.portalGreen),
                     suffixIcon: ValueListenableBuilder<TextEditingValue>(
                       valueListenable: _searchController,

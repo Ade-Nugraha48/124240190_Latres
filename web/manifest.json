@@ -1,6 +1,6 @@
 {
-    "name": "latihan_responsi",
-    "short_name": "latihan_responsi",
+    "name": "Rick & Morty Explorer",
+    "short_name": "Rick & Morty",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
