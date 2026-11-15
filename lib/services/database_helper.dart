@@ -1,5 +1,7 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
-import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import '../models/user_model.dart';
 import '../utils/constants.dart';
 
@@ -28,6 +30,12 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDB(String filePath) async {
+    // Ensure databaseFactory is initialized on desktop platforms
+    if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+
     final dbPath = await getDatabasesPath();
     final path = p.join(dbPath, filePath);
 
