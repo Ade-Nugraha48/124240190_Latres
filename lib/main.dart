@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/character_provider.dart';
+import 'providers/episode_provider.dart';
 import 'providers/favorites_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_navigation_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => FavoritesProvider()..loadFavorites(),
         ),
+        ChangeNotifierProvider(create: (_) => EpisodeProvider()),
       ],
       child: MaterialApp(
         title: 'Rick & Morty Explorer',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../utils/app_theme.dart';
+import 'episode_screen.dart';
 import 'favorite_screen.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
@@ -64,8 +65,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentUser = context.watch<AuthProvider>().currentUser ?? 'User';
-
     final pages = [
       const HomeScreen(),
       FavoriteScreen(
@@ -75,15 +74,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           });
         },
       ),
-      _buildPlaceholderTab(
-        icon: Icons.tv_rounded,
-        title: 'Episodes',
-        description: 'Daftar seluruh episode serial Rick and Morty.',
-        currentUser: currentUser,
-      ),
+      const EpisodeScreen(),
     ];
 
-    final titles = ['Rick & Morty Characters', 'Favorites', 'Episodes'];
+    final titles = [
+      'Rick & Morty Characters',
+      'Favorite Characters',
+      'Episodes',
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -121,64 +119,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             label: 'Episodes',
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildPlaceholderTab({
-    required IconData icon,
-    required String title,
-    required String description,
-    required String currentUser,
-  }) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppTheme.cardBackground,
-                border: Border.all(color: AppTheme.portalGreen.withValues(alpha: 0.5), width: 2),
-              ),
-              child: Icon(icon, size: 56, color: AppTheme.portalGreen),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14, color: AppTheme.textMuted),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppTheme.inputBackground,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                'Akun aktif: $currentUser',
-                style: const TextStyle(
-                  color: AppTheme.portalTeal,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

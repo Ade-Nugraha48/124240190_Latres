@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latihan_responsi/providers/auth_provider.dart';
 import 'package:latihan_responsi/providers/character_provider.dart';
+import 'package:latihan_responsi/providers/episode_provider.dart';
 import 'package:latihan_responsi/providers/favorites_provider.dart';
+import 'package:latihan_responsi/screens/episode_screen.dart';
 import 'package:latihan_responsi/screens/login_screen.dart';
 import 'package:latihan_responsi/screens/main_navigation_screen.dart';
 import 'package:latihan_responsi/screens/register_screen.dart';
@@ -14,6 +16,7 @@ Widget createTestWidget(
   AuthProvider? authProvider,
   CharacterProvider? characterProvider,
   FavoritesProvider? favoritesProvider,
+  EpisodeProvider? episodeProvider,
 }) {
   return MultiProvider(
     providers: [
@@ -25,6 +28,9 @@ Widget createTestWidget(
       ),
       ChangeNotifierProvider<FavoritesProvider>(
         create: (_) => favoritesProvider ?? FavoritesProvider(),
+      ),
+      ChangeNotifierProvider<EpisodeProvider>(
+        create: (_) => episodeProvider ?? EpisodeProvider(),
       ),
     ],
     child: MaterialApp(
@@ -111,7 +117,7 @@ void main() {
 
       await tester.tap(find.text('Episodes').first);
       await tester.pumpAndSettle();
-      expect(find.text('Daftar seluruh episode serial Rick and Morty.'), findsOneWidget);
+      expect(find.byType(EpisodeScreen), findsOneWidget);
     });
   });
 }
