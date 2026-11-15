@@ -194,9 +194,12 @@ void main() {
       expect(find.text('Rick Sanchez ditambahkan ke favorit!'), findsOneWidget);
     });
 
-    testWidgets('DetailScreen displays complete character details', (tester) async {
+    testWidgets('DetailScreen displays complete character details and toggles favorite', (tester) async {
+      final favProvider = FavoritesProvider();
+
       await tester.pumpWidget(
         createHomeTestWidget(
+          favoritesProvider: favProvider,
           child: DetailScreen(character: sampleCharacter),
         ),
       );
@@ -207,6 +210,62 @@ void main() {
       expect(find.text('Male'), findsOneWidget);
       expect(find.text('Earth (C-137)'), findsOneWidget);
       expect(find.text('Citadel of Ricks'), findsOneWidget);
+
+      // Verify favorite toggle in DetailScreen
+      expect(favProvider.isFavorite(sampleCharacter.id), isFalse);
+      expect(find.text('Simpan ke Favorit'), findsOneWidget);
+
+      // Tap FloatingActionButton to favorite
+      await tester.tap(find.text('Simpan ke Favorit'));
+      await tester.pumpAndSettle();
+
+      expect(favProvider.isFavorite(sampleCharacter.id), isTrue);
+      expect(find.text('Tersimpan di Favorit'), findsOneWidget);
+      expect(find.text('Rick Sanchez ditambahkan ke favorit!'), findsOneWidget);
+
+      // Tap again to remove from favorite
+      await tester.tap(find.text('Tersimpan di Favorit'));
+      await tester.pumpAndSettle();
+
+      expect(favProvider.isFavorite(sampleCharacter.id), isFalse);
+      expect(find.text('Simpan ke Favorit'), findsOneWidget);
+      expect(find.text('Rick Sanchez dihapus dari favorit.'), findsOneWidget);
+    });
+
+    testWidgets('DetailScreen fetches from API when only characterId is provided', (tester) async {
+      final mockClient = MockClient((request) async {
+        return http.Response(json.encode(sampleCharacter.toJson()), 200);
+      });
+      final apiService = ApiService(client: mockClient);
+
+      await tester.pumpWidget(
+        createHomeTestWidget(
+          child: DetailScreen(characterId: 1, apiService: apiService),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Rick Sanchez'), findsNWidgets(2));
+      expect(find.text('Earth (C-137)'), findsOneWidget);
+    });
+
+    testWidgets('DetailScreen displays error and retry when fetch by ID fails', (tester) async {
+      final mockClient = MockClient((request) async {
+        return http.Response('Not Found', 404);
+      });
+      final apiService = ApiService(client: mockClient);
+
+      await tester.pumpWidget(
+        createHomeTestWidget(
+          child: DetailScreen(characterId: 999, apiService: apiService),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Gagal Memuat Detail'), findsOneWidget);
+      expect(find.text('Coba Lagi'), findsOneWidget);
     });
   });
 
@@ -248,3 +307,4 @@ void main() {
     });
   });
 }
+

@@ -72,3 +72,4 @@ class FavoritesProvider with ChangeNotifier {
     } catch (_) {}
   }
 }
+
