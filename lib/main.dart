@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
+import 'providers/character_provider.dart';
+import 'providers/favorites_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/main_navigation_screen.dart';
 import 'screens/register_screen.dart';
@@ -20,6 +22,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => CharacterProvider()),
+        ChangeNotifierProvider(
+          create: (_) => FavoritesProvider()..loadFavorites(),
+        ),
       ],
       child: MaterialApp(
         title: 'Rick & Morty Explorer',

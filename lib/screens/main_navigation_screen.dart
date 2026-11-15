@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../utils/app_theme.dart';
+import 'home_screen.dart';
 import 'login_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
@@ -65,12 +66,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     final currentUser = context.watch<AuthProvider>().currentUser ?? 'User';
 
     final pages = [
-      _buildPlaceholderTab(
-        icon: Icons.people_alt_rounded,
-        title: 'Characters (Home)',
-        description: 'Jelajahi daftar karakter dari serial Rick and Morty.',
-        currentUser: currentUser,
-      ),
+      const HomeScreen(),
       _buildPlaceholderTab(
         icon: Icons.favorite_rounded,
         title: 'Favorite Characters',
@@ -185,3 +181,4 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     );
   }
 }
+

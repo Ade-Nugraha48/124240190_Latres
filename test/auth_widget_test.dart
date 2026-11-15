@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latihan_responsi/providers/auth_provider.dart';
+import 'package:latihan_responsi/providers/character_provider.dart';
+import 'package:latihan_responsi/providers/favorites_provider.dart';
 import 'package:latihan_responsi/screens/login_screen.dart';
 import 'package:latihan_responsi/screens/main_navigation_screen.dart';
 import 'package:latihan_responsi/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget createTestWidget(Widget child, {AuthProvider? authProvider}) {
-  return ChangeNotifierProvider<AuthProvider>(
-    create: (_) => authProvider ?? AuthProvider(),
+Widget createTestWidget(
+  Widget child, {
+  AuthProvider? authProvider,
+  CharacterProvider? characterProvider,
+  FavoritesProvider? favoritesProvider,
+}) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(
+        create: (_) => authProvider ?? AuthProvider(),
+      ),
+      ChangeNotifierProvider<CharacterProvider>(
+        create: (_) => characterProvider ?? CharacterProvider(),
+      ),
+      ChangeNotifierProvider<FavoritesProvider>(
+        create: (_) => favoritesProvider ?? FavoritesProvider(),
+      ),
+    ],
     child: MaterialApp(
       home: child,
     ),
