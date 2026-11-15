@@ -151,6 +151,10 @@ void main() {
       expect(newAuthProvider.isLoggedIn, isFalse);
       expect(newAuthProvider.currentUser, isNull);
     });
+    test('DatabaseHelper.instance opens real database with FFI on desktop', () async {
+      final db = await DatabaseHelper.instance.database;
+      expect(db.isOpen, isTrue);
+    });
   });
 }
 

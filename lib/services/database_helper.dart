@@ -30,19 +30,22 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDB(String filePath) async {
-    // Ensure databaseFactory is initialized on desktop platforms
-    if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    final isDesktop = !kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS);
+    if (isDesktop) {
       sqfliteFfiInit();
       databaseFactory = databaseFactoryFfi;
     }
 
-    final dbPath = await getDatabasesPath();
+    final factory = isDesktop ? databaseFactoryFfi : databaseFactory;
+    final dbPath = await factory.getDatabasesPath();
     final path = p.join(dbPath, filePath);
 
-    return await openDatabase(
+    return await factory.openDatabase(
       path,
-      version: AppConstants.databaseVersion,
-      onCreate: _createDB,
+      options: OpenDatabaseOptions(
+        version: AppConstants.databaseVersion,
+        onCreate: _createDB,
+      ),
     );
   }
 
