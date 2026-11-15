@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../utils/app_theme.dart';
+import 'favorite_screen.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
 
@@ -67,11 +68,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
     final pages = [
       const HomeScreen(),
-      _buildPlaceholderTab(
-        icon: Icons.favorite_rounded,
-        title: 'Favorite Characters',
-        description: 'Daftar karakter favorit yang disimpan secara lokal.',
-        currentUser: currentUser,
+      FavoriteScreen(
+        onExploreTap: () {
+          setState(() {
+            _currentIndex = 0;
+          });
+        },
       ),
       _buildPlaceholderTab(
         icon: Icons.tv_rounded,

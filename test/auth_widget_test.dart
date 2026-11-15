@@ -107,7 +107,7 @@ void main() {
       // Test tab switching
       await tester.tap(find.text('Favorites'));
       await tester.pumpAndSettle();
-      expect(find.text('Favorite Characters'), findsOneWidget);
+      expect(find.text('Belum Ada Karakter Favorit'), findsOneWidget);
 
       await tester.tap(find.text('Episodes').first);
       await tester.pumpAndSettle();

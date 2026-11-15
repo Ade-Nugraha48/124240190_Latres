@@ -58,6 +58,14 @@ class FavoritesProvider with ChangeNotifier {
     return !exists; // true if added, false if removed
   }
 
+  Future<void> addFavorite(CharacterModel character) async {
+    if (!isFavorite(character.id)) {
+      _favorites.add(character);
+      await _saveToStorage();
+      notifyListeners();
+    }
+  }
+
   Future<void> removeFavorite(int characterId) async {
     _favorites.removeWhere((c) => c.id == characterId);
     await _saveToStorage();
